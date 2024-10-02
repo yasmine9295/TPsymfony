@@ -11,14 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
 class Artiste
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy:"IDENTITY")]
     #[ORM\Column(type: 'integer')]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $nom;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', length: 5000)]
     private $description;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
