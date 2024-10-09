@@ -16,6 +16,7 @@ class ArtisteController extends AbstractController
 {
     #[Route('/admin/artistes', name: 'admin_artistes', methods:"GET")]
 
+
     public function listeArtistes(ArtisteRepository $repo, PaginatorInterface $paginator, Request $request)
     {
         $artistes=$paginator->paginate(
@@ -35,7 +36,7 @@ class ArtisteController extends AbstractController
 
     public function ajoutModifArtistes(Artiste $artiste=null, Request $request, EntityManagerInterface $manager )
     {
-         {
+         
         if($artiste == null){
             $artiste=new Artiste();
             $mode="ajouté";
@@ -51,7 +52,7 @@ class ArtisteController extends AbstractController
             $manager->persist($artiste);
             $manager->flush();
             $this->addFlash("success","L'artiste a bien été $mode");
-            return $this->redirectToRoute('admin_artiste');
+            return $this->redirectToRoute('admin_artistes');
         }
         return $this->render('admin/artiste/formAjoutModifArtiste.html.twig', [
             'formArtiste' => $form->createView()
@@ -59,6 +60,25 @@ class ArtisteController extends AbstractController
 
 
     }
+   
+    #[Route('/admin/artiste/suppression/{id}', name: 'admin_artiste_suppression', methods:["GET"])]
 
-}
-}
+        public function suppressionArtiste(Artiste $artiste, EntityManagerInterface $manager)
+        {
+            $nbAlbums=$artiste->getAlbums()->count();
+            if($nbAlbums>0){
+            
+                $this->addFlash("Attention", "Vous ne pouvez pas supprimer cet artiste car $nbAlbums album(s) y sont associés ");
+            }else{
+                
+            $manager->remove($artiste);
+            $manager->flush();
+            $this->addFlash("success","L'artiste a bien été supprimé");
+            }
+
+            
+            return $this->redirectToRoute('admin_artistes');
+        }
+
+
+    }
