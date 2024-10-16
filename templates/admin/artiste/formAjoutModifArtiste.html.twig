@@ -4,7 +4,7 @@
 
 {% block body %}
 <h1 class="pt-2 text-center">
-{% if (app.request.attributes.get('_route')=="admin_artiste_ajout") %}
+{% if (app.request.attributes.get('_route')=="admin_style_ajout") %}
     Ajout
     {% else %}
     Modification
@@ -12,32 +12,25 @@
 
  d'un artiste </h1>
 
-{{form_start(formArtiste, {'attr':{'novalidate' : 'novalidate'}})}}
+{{form_start(formStyle)}}
 
-{{form_row(formArtiste.nom)}}
-{{form_row(formArtiste.description)}}
-<div class="row">
-    <div class="col">{{form_row(formArtiste.site)}}</div>
-    <div class="col">{{form_row(formArtiste.type)}}</div>
-</div>
+{{form_row(formStyle.nom)}}
+{{form_row(formStyle.couleur)}}
 
 
-{{form_row(formArtiste.image)}}
  
  <div class="row">
-    <div class="col"><input type="submit", class="btn btn-light" value={% if (app.request.attributes.get('_route')=="admin_artiste_ajout") %}
-    "Ajouter l'artiste"
+    <div class="col"><input type="submit", class="btn btn-light" value={% if (app.request.attributes.get('_route')=="admin_style_ajout") %}
+    "Ajouter le style"
     {% else %}
-   " Modifier l'artiste"
+   " Modifier le style"
 {% endif %}
     ></div>
    
    
-    <div class="col"><a href="{{ path('admin_artistes')}}" class="btn btn-dark" >Annuler</a></div>
+    <div class="col"><a href="{{ path('admin_styles')}}" class="btn btn-dark" >Annuler</a></div>
     
 </div>
-
-
 
 
 
