@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Artiste;
+use App\Form\ArtisteType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

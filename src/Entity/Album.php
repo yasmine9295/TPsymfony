@@ -2,12 +2,20 @@
 
 namespace App\Entity;
 
-use App\Repository\AlbumRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Album;
+use App\Entity\Style;
+use App\Entity\Morceau;
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Repository\AlbumRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ORM\Entity(repositoryClass: AlbumRepository::class)]
+#[UniqueEntity(
+    fields: ['nom','artiste'],
+    message: "Il ne peux exister deux albums de même nom pour un même artiste.",
+)]
 class Album
 {
     #[ORM\Id]
@@ -16,9 +24,20 @@ class Album
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 50,
+        minMessage: "Le nom de l'album doit comporter au minimum {{ limit }}",
+        maxMessage: "Le nom de l'album doit comporter au maximum {{ limit }}")]
+    #[Assert\NotBlank]
     private $nom;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\Range(
+        min: 1940,
+        max: 2099,
+        notInRangeMessage : "Vous devez saisir une année comprise entre {{min}} et {{max}}",
+)]
     private $date;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -26,12 +45,22 @@ class Album
 
     #[ORM\ManyToOne(targetEntity: Artiste::class, inversedBy: 'albums')]
     #[ORM\JoinColumn(nullable: false)]
-    private $artiste;
+    #[Assert\Count(
+        min: 1,
+        minMessage: "Vous devez séléctionner au moins un artiste."
+   )] 
+   private $artiste;
+    
 
     #[ORM\OneToMany(mappedBy: 'album', targetEntity: Morceau::class)]
     private $morceaux;
 
-    #[ORM\ManyToMany(targetEntity: Style::class, mappedBy: 'albums')]
+    #[ORM\ManyToMany(targetEntity: Style::class, inversedBy: 'albums')]
+    #[Assert\Count(
+        min:1,
+        minMessage: "Vous devez séléctionner au moins un style."
+
+    )]
     private $styles;
 
     public function __construct()

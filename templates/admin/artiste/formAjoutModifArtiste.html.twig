@@ -1,38 +1,36 @@
 {% extends 'base.html.twig' %}
+{% block title %}Ajout Artiste{% endblock %}
 
-{% block title %}modification artiste{% endblock %}
 
 {% block body %}
 <h1 class="pt-2 text-center">
-{% if (app.request.attributes.get('_route')=="admin_style_ajout") %}
-    Ajout
-    {% else %}
-    Modification
+{% if (app.request.attributes.get('_route')=="admin_artiste_ajout") %}
+Ajout
+{% else %}
+Modification
 {% endif %}
+d'un Artistes</h1>
 
- d'un artiste </h1>
+{{form_start(formArtiste,{'attr':{'novalidate':'novalidate'}})}}
+{{form_row(formArtiste.nom)}}
 
-{{form_start(formStyle)}}
+{{form_row(formArtiste.description)}}
 
-{{form_row(formStyle.nom)}}
-{{form_row(formStyle.couleur)}}
-
-
- 
- <div class="row">
-    <div class="col"><input type="submit", class="btn btn-light" value={% if (app.request.attributes.get('_route')=="admin_style_ajout") %}
-    "Ajouter le style"
-    {% else %}
-   " Modifier le style"
-{% endif %}
-    ></div>
-   
-   
-    <div class="col"><a href="{{ path('admin_styles')}}" class="btn btn-dark" >Annuler</a></div>
-    
+<div class="row">
+    <div class="col">{{form_row(formArtiste.site)}}</div>
+    <div class="col">{{form_row(formArtiste.type)}}</div>
 </div>
+{{form_row(formArtiste.image)}}
+<div class="row">
 
-
-
+    <div class="col"><a href=" {{path('admin_artistes')}}" class="btn btn-dark btn-block">Annuler</a></div>
+    <div class="col"><input type="submit", class="btn btn-dark btn-block" value=
+    {% if (app.request.attributes.get('_route')=="admin_artiste_ajout") %}
+"Ajouter l'artiste"
+{% else %}
+"Modifier l'artiste"
+{% endif %}></div>
+</div>
 {{form_end(formArtiste)}}
+
 {% endblock %}
