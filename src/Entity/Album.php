@@ -36,7 +36,7 @@ class Album
     #[Assert\Range(
         min: 1940,
         max: 2099,
-        notInRangeMessage : "Vous devez saisir une année comprise entre {{min}} et {{max}}",
+        notInRangeMessage : "Vous devez saisir une année comprise entre {{ min }} et {{ max }}",
 )]
     private $date;
 
@@ -45,9 +45,8 @@ class Album
 
     #[ORM\ManyToOne(targetEntity: Artiste::class, inversedBy: 'albums')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\Count(
-        min: 1,
-        minMessage: "Vous devez séléctionner au moins un artiste."
+    #[Assert\NotBlank(
+        message: "Vous devez séléctionner au moins un artiste."
    )] 
    private $artiste;
     

@@ -13,7 +13,7 @@ use Assert\NotBlank;
 #[ORM\Entity(repositoryClass: ArtisteRepository::class)]
 #[UniqueEntity(
     fields: ['nom'],
-    message: "Le nom de lartiste est déjà utilisé dans la base.",
+    message: "Le nom de l'artiste est déjà utilisé dans la base.",
     
 )]
 class Artiste
